@@ -76,7 +76,7 @@ class LocationViewSet(viewsets.ReadOnlyModelViewSet):
             rating = rating.first()
             if rating.value == serializer.validated_data['value']:
                 rating.delete()
-                return Response({'message': "rating point deleted successfully!"}, status=status.HTTP_204_NO_CONTENT)
+                return Response({'message': "rating point deleted successfully!"}, status=status.HTTP_200_OK)
             else:
                 rating.value = serializer.validated_data['value']
                 rating.save(update_fields=['value'])

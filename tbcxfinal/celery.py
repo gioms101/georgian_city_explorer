@@ -29,9 +29,9 @@ app.conf.beat_schedule = {
         'schedule': crontab(hour=0, minute=0),
         'args': ('locations',)  # Cache key
     },
-    # 'get-popular-products': {
-    #     'task': 'main.tasks.popular_locations',
-    #     'schedule': 60.0,
-    #     'args': ('popular_locations',)  # Cache key
-    # },
+    'get-popular-products': {
+        'task': 'main.tasks.popular_locations',
+        'schedule': 60.0,
+        'args': ('popular_locations',)  # Cache key
+    },
 }
