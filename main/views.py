@@ -23,7 +23,7 @@ from .using_ai import TravelMap
 
 
 class LocationViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Location.objects.prefetch_related('comments', 'ratings', 'comments__user')
+    queryset = Location.objects.select_related('category').prefetch_related('comments', 'ratings', 'comments__user')
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = LocationFilter
     search_fields = ('name',)
@@ -39,26 +39,12 @@ class LocationViewSet(viewsets.ReadOnlyModelViewSet):
         elif self.action == 'add_rating':
             return RatingSerializer
 
-    def list(self, request, *args, **kwargs):
-        cache_key = "locations"
-        cached_response = cache.get(cache_key)
-
-        if cached_response:
-            return Response(cached_response)  # Return cached response if available
-
-        # Call the default `list()` method
-        response = super().list(request, *args, **kwargs)
-
-        # Cache the response data
-        cache.set(cache_key, response.data, timeout=60 * 3)
-
-        return response
-
     def retrieve(self, request, *args, **kwargs):
-        location = get_object_or_404(Location, pk=kwargs.get('pk'))
-        if request.user.is_authenticated and request.user not in location.views.all():
-            location.views.add(request.user)
-        return super().retrieve(request, *args, **kwargs)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        if request.user.is_authenticated and request.user not in instance.views.all():
+            instance.views.add(request.user)
+        return Response(serializer.data)
 
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def write_comment(self, request, pk=None):
@@ -141,8 +127,9 @@ class IntegrateAIAPIView(APIView):
             if location.category_id not in places:
                 places[location.category_id] = location.name
         places = list(places.values())
+        language = serializer.validated_data['language']
         ai = TravelMap()
-        response = ai.create_journey_map(serializer.validated_data['city'], places)
-        result = response.journey_map.replace("\n", "")
-        return Response(result)
+        response = ai.create_journey_map(serializer.validated_data['city'], places, language)
+        # result = response.journey_map.replace("\n", "")
+        return Response(response)
 

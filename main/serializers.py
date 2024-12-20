@@ -80,8 +80,14 @@ class AddLikeSerializer(serializers.ModelSerializer):
 
 
 class IntegrateAISerializer(serializers.Serializer):
+    LANGUAGE_CHOICES = [
+        ('English', 'EN'),
+        ('Georgian', 'GE'),
+    ]
     city = serializers.CharField(write_only=True,
                                  required=True)
+
+    language = serializers.ChoiceField(choices=LANGUAGE_CHOICES)
 
     def validate_city(self, value):
         if value not in City.objects.values_list('name', flat=True):
