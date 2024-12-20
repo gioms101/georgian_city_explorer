@@ -127,9 +127,11 @@ class IntegrateAIAPIView(APIView):
             if location.category_id not in places:
                 places[location.category_id] = location.name
         places = list(places.values())
-        language = serializer.validated_data['language']
-        ai = TravelMap()
-        response = ai.create_journey_map(serializer.validated_data['city'], places, language)
-        # result = response.journey_map.replace("\n", "")
-        return Response(response)
+        if places:
+            language = serializer.validated_data['language']
+            ai = TravelMap()
+            response = ai.create_journey_map(serializer.validated_data['city'], places, language)
+            places = response.places.replace("\n", "")
+            return Response({"Places": places, "Information": response.information})
+        return Response({"message": 'There is no places associated to the city yet!'})
 

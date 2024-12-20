@@ -18,10 +18,11 @@ class TravelMap:
             model="gpt-4o-2024-08-06",
             messages=[
                 {"role": "system",
-                 "content": f"""You should create Traveler Map of the city which user prompts. This is places {places}
-                        Where from you should make Traveler Map.This is Language you should return response {language}.
-                             Ensure the description for each place is concise (e.g., 1-2 sentences).
-                             Avoid detailed or lengthy information, and focus on key highlights of the place.
+                 "content": f"""You should create Traveler Map of the city which user prompts.Traveler map must includes
+                                only this places {places} and nothing else. Places should be only separated by comma.
+                                You must return response in {language} language.
+                                Ensure the description for each place is concise (e.g., 1-2 sentences).
+                                Avoid detailed or lengthy information, and focus on key highlights of the place.
                              """
                  },
                 {"role": "user", "content": city},

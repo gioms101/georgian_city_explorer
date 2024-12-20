@@ -1,21 +1,20 @@
 from celery import shared_task
 from django.db.models import Count
-from django.core.cache import cache
 from .models import PossibleLocation
 from main.models import Location
 
 
 @shared_task
-def check_voting(cache_key):
+def check_voting():
     locations = PossibleLocation.objects.annotate(votes_count=Count('votes')).filter(votes_count__gt=1)
 
     if locations:
         instances_to_save = [
             Location(
                 name=location.name,
-                city=location.city,
+                city_id=location.city_id,
                 address=location.address,
-                category=location.category,
+                category_id=location.category_id,
                 latitude=location.latitude,
                 longitude=location.longitude,
                 image=location.image,
@@ -26,7 +25,6 @@ def check_voting(cache_key):
         ]
         Location.objects.bulk_create(instances_to_save)
         PossibleLocation.objects.all().delete()
-        cache.delete(cache_key)
         return 'Success!'
 
     return "There is nothing to add!"

@@ -4,10 +4,15 @@ from .models import Location, Comment, Rating, City
 
 class ListLocationSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField()
+    average_rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Location
-        fields = ('id', 'name', 'city', 'address', 'latitude', 'longitude', 'image', 'working_hours', 'category')
+        fields = ('id', 'name', 'city', 'address', 'latitude', 'longitude', 'image', 'category', 'average_rating')
+
+    def get_average_rating(self, obj) -> int:
+        ratings = obj.ratings.all()  # Access related ratings using the related name
+        return sum(rating.value for rating in ratings) / ratings.count() if ratings.exists() else 0.0
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -29,17 +34,11 @@ class CommentSerializer(serializers.ModelSerializer):
 class DetailLocationSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True)
     category = serializers.StringRelatedField()
-    average_rating = serializers.SerializerMethodField()
     city = serializers.StringRelatedField()
 
     class Meta:
         model = Location
-        fields = ('name', 'city', 'address', 'latitude', 'longitude', 'image', 'working_hours', 'category', 'comments',
-                  'average_rating')
-
-    def get_average_rating(self, obj) -> int:
-        ratings = obj.ratings.all()  # Access related ratings using the related name
-        return sum(rating.value for rating in ratings) / ratings.count() if ratings.exists() else 0.0
+        fields = ('name', 'city', 'address', 'latitude', 'longitude', 'image', 'working_hours', 'category', 'comments')
 
 
 class CreateCommentSerializer(serializers.ModelSerializer):

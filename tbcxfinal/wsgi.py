@@ -18,7 +18,7 @@ application = get_wsgi_application()
 
 
 def delete_cache_on_exit():
-    cache_key = "locations"
+    cache_key = "popular_locations"
     deleted = cache.delete(cache_key)
     print(f"Cache key '{cache_key}' deleted on exit: {deleted}")
 
