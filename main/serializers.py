@@ -5,13 +5,14 @@ from .models import Location, Comment, Rating, City
 class ListLocationSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField()
     average_rating = serializers.SerializerMethodField()
+    city = serializers.StringRelatedField()
 
     class Meta:
         model = Location
         fields = ('id', 'name', 'city', 'address', 'latitude', 'longitude', 'image', 'category', 'average_rating')
 
     def get_average_rating(self, obj) -> int:
-        ratings = obj.ratings.all()  # Access related ratings using the related name
+        ratings = obj.ratings.all()
         return sum(rating.value for rating in ratings) / ratings.count() if ratings.exists() else 0.0
 
 

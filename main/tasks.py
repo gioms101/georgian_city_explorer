@@ -6,7 +6,7 @@ from .models import Location
 
 @shared_task
 def popular_locations(cache_key):
-    locations = (Location.objects.annotate(views_count=Count('views')).filter(views_count__gt=1)
+    locations = (Location.objects.annotate(views_count=Count('views')).filter(views_count__gte=1)
                          .order_by('-views_count'))
     if locations:
         cached_data = list(locations.values('id', 'name', 'city', 'address', 'image'))

@@ -23,11 +23,18 @@ from .using_ai import TravelMap
 
 
 class LocationViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Location.objects.select_related('category').prefetch_related('comments', 'ratings', 'comments__user')
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = LocationFilter
     search_fields = ('name',)
     pagination_class = CustomLocationPagination
+
+    def get_queryset(self):
+        if self.action == 'list':
+            return Location.objects.select_related('city', 'category').prefetch_related('ratings')
+
+        elif self.action == 'retrieve':
+            return Location.objects.select_related('city', 'category').prefetch_related('comments', 'comments__user',
+                                                                                        'comments__likes')
 
     def get_serializer_class(self):
         if self.action == 'list':

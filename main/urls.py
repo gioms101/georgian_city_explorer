@@ -4,7 +4,7 @@ from .views import LocationViewSet, CommentViewSet, PopularLocationAPIView, Inte
 
 router = DefaultRouter()
 
-router.register(r'locations', LocationViewSet)
+router.register(r'locations', LocationViewSet, basename='locations')
 router.register(r'comments', CommentViewSet)
 
 urlpatterns = [
