@@ -1,6 +1,9 @@
-from django.contrib.auth.password_validation import validate_password
-from .models import CustomUser
 from rest_framework import serializers
+from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.tokens import default_token_generator
+from django.urls import reverse
+from .tasks import send_email_verification
+from .models import CustomUser
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):
@@ -22,6 +25,20 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('username', 'email', 'image')
+
+    def save(self, **kwargs):
+        instance = super().save(**kwargs)
+
+        if 'email' in self.validated_data:
+            request = self.context.get('request')
+            instance.is_verified = False
+            instance.save(update_fields=['is_verified'])
+            token = default_token_generator.make_token(instance)
+            link = request.build_absolute_uri(
+                reverse('email-verify', kwargs={'user_id': instance.id, 'token': token})
+            )
+            send_email_verification.delay(instance.email, link)
+        return instance
 
 
 class ChangePasswordSerializer(serializers.Serializer):

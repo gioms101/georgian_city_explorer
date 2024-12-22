@@ -24,7 +24,7 @@ def debug_task(self):
 
 
 app.conf.beat_schedule = {
-    'check-every-2-minutes': {
+    'check-vote': {
         'task': 'votes.tasks.check_voting',
         'schedule': 60.0,  # crontab(hour=0, minute=0)
     },

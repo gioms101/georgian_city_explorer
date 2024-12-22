@@ -36,7 +36,7 @@ class ConfirmEmailView(APIView):
         user = get_object_or_404(CustomUser, id=user_id)
         if default_token_generator.check_token(user, token):
             user.is_verified = True
-            user.save()
+            user.save(update_fields=['is_verified'])
             return Response({'message': 'Email verified successfully!'}, status=status.HTTP_200_OK)
         return Response({'error': 'Invalid or expired token'}, status=status.HTTP_400_BAD_REQUEST)
 

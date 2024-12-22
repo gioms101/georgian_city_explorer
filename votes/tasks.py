@@ -6,7 +6,7 @@ from main.models import Location
 
 @shared_task
 def check_voting():
-    locations = PossibleLocation.objects.annotate(votes_count=Count('votes')).filter(votes_count__gt=1)
+    locations = PossibleLocation.objects.annotate(votes_count=Count('votes')).filter(votes_count__gte=1)
 
     if locations:
         instances_to_save = [
