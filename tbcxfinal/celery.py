@@ -24,13 +24,9 @@ def debug_task(self):
 
 
 app.conf.beat_schedule = {
-    'check-vote': {
-        'task': 'votes.tasks.check_voting',
-        'schedule': 60.0,  # crontab(hour=0, minute=0)
-    },
     'get-popular-products': {
         'task': 'main.tasks.popular_locations',
-        'schedule': 60.0,
+        'schedule': 60.0,  # crontab(hour=0, minute=0) Count 60 second as 1 day to see result.
         'args': ('popular_locations',)  # Cache key
     },
 }

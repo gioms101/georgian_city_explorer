@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework import mixins, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -5,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from .serializers import PossibleLocationSerializer, VoteToLocationSerializer
 from .models import PossibleLocation
+from .tasks import check_voting
 
 
 # Create your views here.
@@ -30,4 +32,7 @@ class PossibleLocationViewSet(mixins.ListModelMixin,
             return Response({'message': "Vote removed!"}, status=status.HTTP_200_OK)
         else:
             location_obj.votes.add(request.user)
+            locations = PossibleLocation.objects.annotate(votes_count=Count('votes')).filter(votes_count__gt=1)
+            if locations:
+                check_voting.delay([location.id for location in locations])
             return Response({'message': "Voted successfully!"}, status=status.HTTP_200_OK)
