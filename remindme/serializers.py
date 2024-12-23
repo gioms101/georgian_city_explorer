@@ -1,4 +1,5 @@
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
+from django.utils.timezone import now
 from rest_framework import serializers
 from .models import Event
 from main.models import Location
@@ -15,6 +16,9 @@ class EventSerializer(serializers.ModelSerializer):
     def validate_event_time(self, value):
         if value <= datetime.now():
             raise serializers.ValidationError("Event time can't be in the past!")
+        remaining_time = value - now()
+        if remaining_time <= timedelta(hours=1):
+            raise serializers.ValidationError("Reminders can only be set for events scheduled more than 1 hour.")
         return value
 
     def validate(self, attrs):
