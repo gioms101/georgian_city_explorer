@@ -1,5 +1,6 @@
 from django.utils.timezone import make_aware, now
 from datetime import timedelta
+from rest_framework.exceptions import ValidationError
 from .tasks import send_reminder
 
 
@@ -19,7 +20,7 @@ def send_alert(func):
             )
             event.alert_task_id = task.id
         else:
-            event.alert_task_id = None
+            raise ValidationError("Reminders can only be set for events scheduled more than 1 hour.")
 
         event.save()
         return event
