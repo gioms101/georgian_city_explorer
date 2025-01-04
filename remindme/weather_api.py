@@ -1,4 +1,5 @@
 import requests
+from decouple import config
 
 """"
 This is used to collect current weather data when sending reminder email to user.
@@ -7,7 +8,7 @@ This is used to collect current weather data when sending reminder email to user
 
 class WeatherData:
     def __init__(self):
-        self.api_key = '0d619b7f8343e34c2830a95608aafaed'
+        self.api_key = config('WEATHER_API_KEY')
 
     def get_weather_data(self, city):
         response = requests.get(
@@ -21,6 +22,6 @@ class WeatherData:
 
     def parse_data(self, response):
         new_response = {'weather_description': response['weather'][0]['description'], 'temp': response['main']['temp'],
-                        'humidity': response['main']['humidity'], 'wind_speed_kmh': response['wind']['speed'] * 3.6}
+                        'humidity': response['main']['humidity'], 'wind_speed_kmh':  round(response['wind']['speed'] * 3.6, 2)}
         return new_response
 

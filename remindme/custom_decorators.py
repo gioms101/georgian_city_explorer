@@ -1,6 +1,5 @@
-from django.utils.timezone import make_aware, now
+from django.utils.timezone import make_aware
 from datetime import timedelta
-from rest_framework.exceptions import ValidationError
 from .tasks import send_reminder
 
 

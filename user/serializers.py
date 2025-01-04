@@ -51,3 +51,16 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError("Old password is incorrect.")
         return value
 
+
+class ForgotPasswordRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True, write_only=True)
+
+    def validate_email(self, value):
+        user = CustomUser.objects.filter(email=value)
+        if user:
+            return value
+        raise serializers.ValidationError("User with that email doesn't exist!")
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    new_password = serializers.CharField(required=True, write_only=True, validators=[validate_password])

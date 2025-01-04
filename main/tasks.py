@@ -10,7 +10,7 @@ def popular_locations(cache_key):
                          .order_by('-views_count'))
     if locations:
         cached_data = list(locations.values('id', 'name', 'city', 'address', 'image'))
-        cache.set(cache_key, cached_data, timeout=60)
+        cache.set(cache_key, cached_data, timeout=10)
         for location in locations:
             location.views.clear()
         return 'Ordered by view count successfully!'

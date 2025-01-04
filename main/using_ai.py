@@ -1,5 +1,6 @@
 from openai import OpenAI
 from pydantic import BaseModel
+from decouple import config
 
 
 class AboutJourney(BaseModel):
@@ -10,7 +11,7 @@ class AboutJourney(BaseModel):
 class TravelMap:
     def __init__(self):
         self.client = OpenAI(
-            api_key='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'
+            api_key=config('AI_API_KEY')
         )
 
     def create_journey_map(self, city, places, language):

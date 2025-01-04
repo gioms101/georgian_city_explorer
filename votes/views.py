@@ -32,7 +32,7 @@ class PossibleLocationViewSet(mixins.ListModelMixin,
             return Response({'message': "Vote removed!"}, status=status.HTTP_200_OK)
         else:
             location_obj.votes.add(request.user)
-            locations = PossibleLocation.objects.annotate(votes_count=Count('votes')).filter(votes_count__gt=1)
+            locations = PossibleLocation.objects.annotate(votes_count=Count('votes')).filter(votes_count__gte=1)
             if locations:
                 check_voting.delay([location.id for location in locations])
             return Response({'message': "Voted successfully!"}, status=status.HTTP_200_OK)
