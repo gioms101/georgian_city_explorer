@@ -29,4 +29,8 @@ app.conf.beat_schedule = {
         'schedule': 10.0,  # crontab(hour=0, minute=0) Count 10 second as 1 day to see result.
         'args': ('popular_locations',)  # Cache key
     },
+    "delete-inactive-subs": {
+        'task': 'subscription.tasks.delete_inactive_subscriptions',
+        'schedule': crontab(minute=0, hour=1),
+    }
 }

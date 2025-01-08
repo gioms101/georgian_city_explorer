@@ -51,11 +51,15 @@ INSTALLED_APPS = [
     'django_json_widget',
     "debug_toolbar",
     'django_filters',
+
+    # apps
+
     'user',
     'main',
     'favorites',
     'remindme',
     'votes',
+    'subscription',
 ]
 
 MIDDLEWARE = [
@@ -177,3 +181,10 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1)
 }
+
+# PayPal Credentials
+
+CLIENT_ID = config('PAYPAL_CLIENT_ID')
+CLIENT_SECRET = config('PAYPAL_CLIENT_SECRET')
+
+

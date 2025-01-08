@@ -12,6 +12,7 @@ This program features locations across cities in Georgia, designed to help users
 - **Profile Management**:  
   Authenticated users can:  
   - Update their profile picture, name, password, or email.  
+  - Users can reset their password in case of forgetting. 
   - Delete their account.  
   - Reverify their email when updated.  
 
@@ -27,7 +28,7 @@ This program features locations across cities in Georgia, designed to help users
   - Like, reply to, edit, or delete comments.  
 - **Popular Locations**:  
   - View the most visited locations of the day, based on unique authenticated user visits.  
-- **Traveler Map AI**:  
+- **Traveler Map AI**: (This is only for users who have active subscription)
   - Plan your day by entering a city name and selecting a preferred language (English or Georgian).  
   - Traveler Map AI: Users who are unsure where to go or how to plan their day can use this feature. By entering a city name and selecting a language &#40;English or Georgian&#41;, they receive a suggested itinerary. The AI only includes locations already added to the program, and if multiple locations belong to the same category, only one is included in the response.
 
@@ -50,9 +51,13 @@ This program features locations across cities in Georgia, designed to help users
 - The administrator adds proposed locations, and users can vote for or against them.
 - If a location receives a predetermined number of votes, it is automatically added to the program, and users can view its details.
 
+### Subscription App:
+- User can purchase one of subscription to have access to special feature of program (Generating Traveler Map).
+
+
 ## 🛠️ Tech Stack  
 - **Framework**: Django REST Framework   
-- **Database**: Sqlite3  
+- **Database**: PostgreSQL
 - **Task Queue**: Celery with Redis
 
 ## 📄 API Documentation

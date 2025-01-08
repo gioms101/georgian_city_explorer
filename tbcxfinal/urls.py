@@ -35,6 +35,7 @@ urlpatterns = [
     path('favorites/', include('favorites.urls')),
     path('remindme/', include('remindme.urls')),
     path('votes/', include('votes.urls')),
+    path('subscribe/', include('subscription.urls')),
 ] + debug_toolbar_urls()
 
 if settings.DEBUG:

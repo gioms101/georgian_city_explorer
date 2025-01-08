@@ -13,7 +13,7 @@ from django.core.cache import cache
 from .models import Location, Comment, Rating
 from .serializers import ListLocationSerializer, DetailLocationSerializer, CreateCommentSerializer, \
     UpdateCommentSerializer, RatingSerializer, AddLikeSerializer, ReplyToCommentSerializer, IntegrateAISerializer
-from .permissions import IsOwner
+from .permissions import IsOwner, HasActiveSubscription
 from .filtersets import LocationFilter
 from .paginations import CustomLocationPagination
 from .using_ai import TravelMap
@@ -123,7 +123,7 @@ class PopularLocationAPIView(APIView):
 
 class IntegrateAIAPIView(APIView):
     serializer_class = IntegrateAISerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasActiveSubscription]
 
     def post(self, request, *args, **kwargs):
         serializer = IntegrateAISerializer(data=request.data)
