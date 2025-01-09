@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import SubscriptionPlan, Subscription
+from .models import SubscriptionPlan
 
 
 class SubscriptionPlanSerializer(serializers.ModelSerializer):
