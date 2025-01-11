@@ -32,6 +32,7 @@ class Location(models.Model):
     working_hours = models.JSONField(default=dict, blank=True)
     description = models.TextField(blank=True, null=True)
     views = models.ManyToManyField(CustomUser, blank=True)
+    anonymous_views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

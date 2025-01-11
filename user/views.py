@@ -15,8 +15,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import (RegisterUserSerializer, UserProfileSerializer, ChangePasswordSerializer,
                           ForgotPasswordRequestSerializer, ResetPasswordSerializer)
 from .models import CustomUser
-from .tasks import send_email_verification, reset_password
-
+from .tasks import send_email_verification, reset_password, merge_favorite_locs
+import ast
 
 # Create your views here.
 
@@ -32,6 +32,10 @@ class RegisterAPIView(CreateAPIView):
             reverse('email-verify', kwargs={'user_pk': encoded_pk, 'token': token})
         )
         send_email_verification.delay(user.email, link)
+        fav_locs = self.request.COOKIES.get('favorite_locations', '[]')
+        fav_locs = ast.literal_eval(fav_locs)
+        if fav_locs:
+            merge_favorite_locs.delay(fav_locs, user.pk)
 
 
 class ConfirmEmailView(APIView):

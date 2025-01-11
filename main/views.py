@@ -1,3 +1,4 @@
+import ast
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework.decorators import action
@@ -49,9 +50,18 @@ class LocationViewSet(viewsets.ReadOnlyModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        if request.user.is_authenticated and request.user not in instance.views.all():
-            instance.views.add(request.user)
-        return Response(serializer.data)
+        response = Response(serializer.data)
+        viewed_locations = ast.literal_eval(request.COOKIES.get('viewed_locations', '[]'))
+        if request.user.is_authenticated:
+            if request.user not in instance.views.all() and instance.id not in viewed_locations:
+                instance.views.add(request.user)
+        else:
+            if instance.id not in viewed_locations:
+                instance.anonymous_views += 1
+                viewed_locations.append(instance.id)
+                response.set_cookie('viewed_locations', str(viewed_locations), max_age=20)
+                instance.save(update_fields=['anonymous_views'])
+        return response
 
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def write_comment(self, request, pk=None):

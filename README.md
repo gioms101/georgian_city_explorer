@@ -27,7 +27,7 @@ This program features locations across cities in Georgia, designed to help users
   - Comment on locations to share impressions or give advice.  
   - Like, reply to, edit, or delete comments.  
 - **Popular Locations**:  
-  - View the most visited locations of the day, based on unique authenticated user visits.  
+  - View the most visited locations of the day, based on unique authenticated/anonymous user visits.  
 - **Traveler Map AI**: (This is only for users who have active subscription)
   - Plan your day by entering a city name and selecting a preferred language (English or Georgian).  
   - Traveler Map AI: Users who are unsure where to go or how to plan their day can use this feature. By entering a city name and selecting a language &#40;English or Georgian&#41;, they receive a suggested itinerary. The AI only includes locations already added to the program, and if multiple locations belong to the same category, only one is included in the response.
@@ -35,6 +35,7 @@ This program features locations across cities in Georgia, designed to help users
 ### **Favorites App**
 - Add locations to your personal favorite list.
 - Remove locations from the favorite list at any time.
+- This is possible for both Anonymous and Authorized users.
 
 
 ### **RemindMe APP**  

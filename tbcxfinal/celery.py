@@ -26,7 +26,7 @@ def debug_task(self):
 app.conf.beat_schedule = {
     'get-popular-products': {
         'task': 'main.tasks.popular_locations',
-        'schedule': 10.0,  # crontab(hour=0, minute=0) Count 10 second as 1 day to see result.
+        'schedule': 20.0,  # crontab(hour=0, minute=0) Count 10 second as 1 day to see result.
         'args': ('popular_locations',)  # Cache key
     },
     "delete-inactive-subs": {

@@ -1,6 +1,8 @@
+from django.utils.encoding import force_bytes
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode
 from django.urls import reverse
 from .tasks import send_email_verification
 from .models import CustomUser
@@ -33,9 +35,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
             request = self.context.get('request')
             instance.is_verified = False
             instance.save(update_fields=['is_verified'])
+            encoded_pk = urlsafe_base64_encode(force_bytes(instance.pk))
             token = default_token_generator.make_token(instance)
             link = request.build_absolute_uri(
-                reverse('email-verify', kwargs={'user_id': instance.id, 'token': token})
+                reverse('email-verify', kwargs={'user_pk': encoded_pk, 'token': token})
             )
             send_email_verification.delay(instance.email, link)
         return instance
