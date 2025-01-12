@@ -6,7 +6,7 @@ This program features locations across cities in Georgia, designed to help users
 
 ## 🚀 Features  
 
-### **User APP**  
+### 👤📱 **User APP**  
 - **User Registration**:  
   Users can register on the site. After successful registration, they receive a verification link via email to activate their account.  
 - **Profile Management**:  
@@ -16,7 +16,7 @@ This program features locations across cities in Georgia, designed to help users
   - Delete their account.  
   - Reverify their email when updated.  
 
-### **Main APP**  
+### 🗺️🏞️ **Main APP**  
 - **Browse Locations**:  
   - Explore locations across Georgia.  
   - Filter by city or category.  
@@ -32,13 +32,13 @@ This program features locations across cities in Georgia, designed to help users
   - Plan your day by entering a city name and selecting a preferred language (English or Georgian).  
   - Traveler Map AI: Users who are unsure where to go or how to plan their day can use this feature. By entering a city name and selecting a language &#40;English or Georgian&#41;, they receive a suggested itinerary. The AI only includes locations already added to the program, and if multiple locations belong to the same category, only one is included in the response.
 
-### **Favorites App**
+### ⭐❤️ **Favorites App**
 - Add locations to your personal favorite list.
 - Remove locations from the favorite list at any time.
 - This is possible for both Anonymous and Authorized users.
 
 
-### **RemindMe APP**  
+### ⏰📧 **RemindMe APP**  
 - **Set Reminders**:  
   - Plan visits by setting a reminder with date and time.  
   - Receive email reminders one hour before the visit, including weather forecasts.
@@ -47,12 +47,12 @@ This program features locations across cities in Georgia, designed to help users
 - **Manage Reminders**:
  - Update or delete reminders.
 - Deleted reminders ensure no further emails are sent.
-### Votes App:
+### 🗳️👍 Votes App:
 - When the site administrator wants to update the program by adding new locations, they can involve users in the process.
 - The administrator adds proposed locations, and users can vote for or against them.
 - If a location receives a predetermined number of votes, it is automatically added to the program, and users can view its details.
 
-### Subscription App:
+### 💳📅 Subscription App:
 - User can purchase one of subscription to have access to special feature of program (Generating Traveler Map).
 
 
