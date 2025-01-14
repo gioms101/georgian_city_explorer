@@ -41,7 +41,7 @@ class RegisterAPIView(CreateAPIView):
 class ConfirmEmailView(APIView):
     serializer_class = None
 
-    def get(self, request, user_pk, token):
+    def get(self, request, user_pk, token) -> Response:
         user_id = urlsafe_base64_decode(user_pk).decode()
         user = get_object_or_404(CustomUser, id=user_id)
         if default_token_generator.check_token(user, token):
@@ -67,7 +67,7 @@ class UserProfileViewSet(mixins.RetrieveModelMixin,
         return self.request.user
 
     @action(detail=False, methods=['patch'])
-    def change_password(self, request):
+    def change_password(self, request) -> Response:
         serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = request.user
@@ -77,7 +77,7 @@ class UserProfileViewSet(mixins.RetrieveModelMixin,
 
 
 class CustomLoginView(TokenObtainPairView):
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs) -> Response:
         response = super().post(request, *args, **kwargs)
         user = CustomUser.objects.get(username=request.data['username'])
         if not user.is_verified:
@@ -88,7 +88,7 @@ class CustomLoginView(TokenObtainPairView):
 class ForgotPasswordRequestAPIView(APIView):
     serializer_class = ForgotPasswordRequestSerializer
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs) -> Response:
         serializer = ForgotPasswordRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = CustomUser.objects.get(email=serializer.validated_data['email'])
@@ -104,7 +104,7 @@ class ForgotPasswordRequestAPIView(APIView):
 class ResetPasswordAPIView(APIView):
     serializer_class = ResetPasswordSerializer
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs) -> Response:
         serializer = ResetPasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user_pk = urlsafe_base64_decode(kwargs.get('user_pk')).decode()

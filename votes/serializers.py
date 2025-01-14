@@ -5,7 +5,7 @@ from .models import PossibleLocation
 class PossibleLocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = PossibleLocation
-        fields = ('name', 'category', 'image')
+        fields = ('id', 'name', 'category', 'image')
 
 
 class VoteToLocationSerializer(serializers.ModelSerializer):

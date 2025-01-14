@@ -1,6 +1,4 @@
 from django.db import models
-from django.template.defaultfilters import slugify
-
 from main.models import Category, City
 from user.models import CustomUser
 
@@ -17,7 +15,7 @@ class PossibleLocation(models.Model):
     image = models.ImageField(upload_to='loc_pics/')
     working_hours = models.JSONField(default=dict, blank=True)
     description = models.TextField(blank=True, null=True)
-    votes = models.ManyToManyField(CustomUser, blank=True)
+    votes = models.ManyToManyField(CustomUser, blank=True, related_name='user_vote')
 
     def __str__(self):
         return self.name

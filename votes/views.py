@@ -26,13 +26,19 @@ class PossibleLocationViewSet(mixins.ListModelMixin,
     def vote(self, request):
         serializer = VoteToLocationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        location_obj = PossibleLocation.objects.get(id=serializer.validated_data['id'])
-        if request.user in location_obj.votes.all():
-            location_obj.votes.remove(request.user)
-            return Response({'message': "Vote removed!"}, status=status.HTTP_200_OK)
-        else:
-            location_obj.votes.add(request.user)
-            locations = PossibleLocation.objects.annotate(votes_count=Count('votes')).filter(votes_count__gte=1)
-            if locations:
-                check_voting.delay([location.id for location in locations])
-            return Response({'message': "Voted successfully!"}, status=status.HTTP_200_OK)
+        try:
+            location_obj = PossibleLocation.objects.get(id=serializer.validated_data['id'])
+            if request.user in location_obj.votes.all():
+                location_obj.votes.remove(request.user)
+                return Response({'message': "Vote removed!"}, status=status.HTTP_200_OK)
+            else:
+                if request.user.user_vote:
+                    request.user.user_vote.clear()
+
+                location_obj.votes.add(request.user)
+                locations = PossibleLocation.objects.annotate(votes_count=Count('votes')).filter(votes_count__gte=3)
+                if locations:
+                    check_voting.delay([location.id for location in locations])
+                return Response({'message': "Voted successfully!"}, status=status.HTTP_200_OK)
+        except PossibleLocation.DoesNotExist:
+            return Response({'message': "No such location"}, status=status.HTTP_404_NOT_FOUND)
