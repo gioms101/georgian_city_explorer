@@ -1,72 +1,119 @@
-## 🗺️ Georgian Cities Explorer
+# 🏯 Georgian Cities Explorer  
 
-## About the Program:
-This program features locations across cities in Georgia, designed to help users explore and discover new places. If someone is in a particular city and doesn’t know what to visit, they can use this site to learn about available locations. Essentially, it is a platform for those interested in traveling and exploring cities more deeply.
+## About the Program  
+This program features locations across cities in Georgia, helping users explore and discover new places. If someone is in a particular city and doesn’t know what to visit, they can use this site to learn about available locations. Essentially, it is a platform for those interested in traveling and exploring cities more deeply.  
 
+---
 
 ## 🚀 Features  
 
-### 👤📱 **User APP**  
-- **User Registration**:  
-  Users can register on the site. After successful registration, they receive a verification link via email to activate their account.  
-- **Profile Management**:  
-  Authenticated users can:  
-  - Update their profile picture, name, password, or email.  
-  - Users can reset their password in case of forgetting. 
-  - Delete their account.  
-  - Reverify their email when updated.  
+### 👤📱 User APP  
+- **User Registration:** Users receive an email verification link to activate their account.  
+- **Profile Management:** Update profile details, reset passwords, and delete accounts.  
 
-### 🗺️🏞️ **Main APP**  
-- **Browse Locations**:  
-  - Explore locations across Georgia.  
-  - Filter by city or category.  
-  - Search for specific locations.  
-  - Enjoy pagination with 5 locations per page.  
-- **Authenticated User Actions**:  
-  - Rate locations (1–5 stars) and update/remove ratings.  
-  - Comment on locations to share impressions or give advice.  
-  - Like, reply to, edit, or delete comments.  
-- **Popular Locations**:  
-  - View the most visited locations of the day, based on unique authenticated/anonymous user visits.  
-- **Traveler Map AI**: (This is only for users who have active subscription)
-  - Plan your day by entering a city name and selecting a preferred language (English or Georgian).  
-  - Traveler Map AI: Users who are unsure where to go or how to plan their day can use this feature. By entering a city name and selecting a language &#40;English or Georgian&#41;, they receive a suggested itinerary. The AI only includes locations already added to the program, and if multiple locations belong to the same category, only one is included in the response.
+### 🟤🏞️ Main APP  
+- **Browse Locations:** Search, filter, and paginate locations.  
+- **Authenticated User Actions:** Rate locations, comment, like/reply to comments.  
+- **Popular Locations:** View most visited locations based on daily unique visits.  
+- **Traveler Map AI (Subscription Required):** AI-generated itinerary for travel planning.  
 
-### ⭐❤️ **Favorites App**
-- Add locations to your personal favorite list.
-- Remove locations from the favorite list at any time.
-- This is possible for both Anonymous and Authorized users.
+### ⭐❤️ Favorites App  
+- **Save and manage favorite locations.**  
 
+### ⏰📧 RemindMe APP  
+- **Set reminders for location visits** with weather forecasts and operational hours validation.  
 
-### ⏰📧 **RemindMe APP**  
-- **Set Reminders**:  
-  - Plan visits by setting a reminder with date and time.  
-  - Receive email reminders one hour before the visit, including weather forecasts.
-  - Validate the operational hours of the location to ensure it is open during the selected time.
-  - If the location is closed, users receive a message to select a valid time.
-- **Manage Reminders**:
- - Update or delete reminders.
-- Deleted reminders ensure no further emails are sent.
-### 🗳️👍 Votes App:
-- When the site administrator wants to update the program by adding new locations, they can involve users in the process.
-- The administrator adds proposed locations, and users can vote for or against them.
-- If a location receives a predetermined number of votes, it is automatically added to the program, and users can view its details.
+### 🗳️👍 Votes App  
+- **Users vote for new locations to be added.**  
 
-### 💳📅 Subscription App:
-- User can purchase one of subscription to have access to special feature of program (Generating Traveler Map).
+### 💳📅 Subscription App  
+- **Paid subscriptions unlock the AI-powered Traveler Map feature.**  
 
+---
 
 ## 🛠️ Tech Stack  
-- **Framework**: Django REST Framework   
-- **Database**: PostgreSQL
-- **Task Queue**: Celery with Redis
+- **Framework:** Django REST Framework  
+- **Database:** PostgreSQL  
+- **Task Queue:** Celery with Redis  
 
-## 📄 API Documentation
-This project includes an interactive API documentation powered by Swagger. You can explore all the endpoints, test requests, and view responses directly from your browser
+---
 
-### Access Swagger Documentation
+## 📝 API Documentation  
+Swagger documentation is available:  
+📌 **URL:** `http://localhost:8000/swagger/`  
 
-- URL: http://localhost:8000/swagger/
-- **The documentation provides**:
- - Endpoint Details: Request methods, parameters, and responses.
- - Try It Out: Test API requests in real time.
+Features:  
+- **Endpoint Details:** Request methods, parameters, responses.  
+- **Try It Out:** Test API requests directly.  
+
+---
+
+## 🚀 How to Run the Project with Docker  
+
+### 1️⃣ Clone the Repository  
+```sh
+  git clone https://github.com/yourusername/georgian-cities-explorer.git
+  cd georgian-cities-explorer
+```
+
+### 2️⃣ Create a `.env` File  
+Create a `.env` file in the project root with the following environment variables:  
+```env
+SECRET_KEY=
+DEBUG=
+POSTGRES_DB=
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+EMAIL_HOST=
+EMAIL_HOST_USER=
+EMAIL_HOST_PASSWORD=
+EMAIL_PORT=
+AI_API_KEY=
+WEATHER_API_KEY=
+PAYPAL_CLIENT_ID=
+PAYPAL_CLIENT_SECRET=
+```
+
+### 3️⃣ Build and Start Containers  
+Run the following command to build and start the Docker containers:  
+```sh
+ docker compose up --build -d
+```
+This will start the following services:  
+👉 **PostgreSQL** (database)  
+👉 **Redis** (task queue backend)  
+👉 **Django Web App**  
+👉 **Celery & Celery Beat**  
+
+### 4️⃣ Create a Superuser  
+To access the **Django Admin Panel**, create a superuser:  
+```sh
+ docker exec -it <container_id_or_name> python manage.py createsuperuser
+```
+Follow the prompts to set up a **username, email, and password**.
+
+### 5️ Access the Application  
+- 🌍 **Website:** `http://localhost:8000/`  
+- 🛠️ **Admin Panel:** `http://localhost:8000/admin/`  
+
+---
+
+## 📌 Useful Docker Commands  
+
+### 🔍 Check Running Containers  
+```sh
+ docker ps
+```
+
+### 🛠️ Stop Containers  
+```sh
+ docker compose down
+```
+
+### 🗑️ Remove Unused Images  
+```sh
+ docker rmi -f $(docker images -q)
+```
+
+---
+
