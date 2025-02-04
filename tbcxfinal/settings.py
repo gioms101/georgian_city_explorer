@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 from datetime import timedelta
+from email.policy import default
 from pathlib import Path
 from decouple import config
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -102,10 +104,10 @@ WSGI_APPLICATION = 'tbcxfinal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': 'localhost',
+        'NAME': os.environ.get('POSTGRES_DB', 'djangotest'),
+        'USER': os.environ.get('POSTGRES_USER', 'admin'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'admin123'),
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
@@ -162,7 +164,7 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_BROKER_URL = "redis://redis:6379/0"
 
 INTERNAL_IPS = [
     # ...
@@ -173,7 +175,7 @@ INTERNAL_IPS = [
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://redis:6379/1",
     }
 }
 
@@ -184,7 +186,6 @@ SIMPLE_JWT = {
 
 # PayPal Credentials
 
-CLIENT_ID = config('PAYPAL_CLIENT_ID')
-CLIENT_SECRET = config('PAYPAL_CLIENT_SECRET')
-
+CLIENT_ID = config('PAYPAL_CLIENT_ID', default=None)
+CLIENT_SECRET = config('PAYPAL_CLIENT_SECRET', default=None)
 
