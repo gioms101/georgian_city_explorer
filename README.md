@@ -11,7 +11,7 @@ This program features locations across cities in Georgia, helping users explore 
 - **User Registration:** Users receive an email verification link to activate their account.  
 - **Profile Management:** Update profile details, reset passwords, and delete accounts.  
 
-### 🟤🏞️ Main APP  
+### 🏞️ Main APP  
 - **Browse Locations:** Search, filter, and paginate locations.  
 - **Authenticated User Actions:** Rate locations, comment, like/reply to comments.  
 - **Popular Locations:** View most visited locations based on daily unique visits.  
@@ -52,8 +52,8 @@ Features:
 
 ### 1️⃣ Clone the Repository  
 ```sh
-  git clone https://github.com/yourusername/georgian-cities-explorer.git
-  cd georgian-cities-explorer
+git clone https://github.com/gioms101/georgian_city_explorer.git
+cd georgian_city_explorer
 ```
 
 ### 2️⃣ Create a `.env` File  
@@ -77,7 +77,7 @@ PAYPAL_CLIENT_SECRET=
 ### 3️⃣ Build and Start Containers  
 Run the following command to build and start the Docker containers:  
 ```sh
- docker compose up --build -d
+docker compose up --build -d
 ```
 This will start the following services:  
 👉 **PostgreSQL** (database)  
@@ -88,7 +88,7 @@ This will start the following services:
 ### 4️⃣ Create a Superuser  
 To access the **Django Admin Panel**, create a superuser:  
 ```sh
- docker exec -it <container_id_or_name> python manage.py createsuperuser
+docker exec -it <container_id_or_name> python manage.py createsuperuser
 ```
 Follow the prompts to set up a **username, email, and password**.
 
@@ -102,17 +102,17 @@ Follow the prompts to set up a **username, email, and password**.
 
 ### 🔍 Check Running Containers  
 ```sh
- docker ps
+docker ps
 ```
 
 ### 🛠️ Stop Containers  
 ```sh
- docker compose down
+docker compose down
 ```
 
 ### 🗑️ Remove Unused Images  
 ```sh
- docker rmi -f $(docker images -q)
+docker rmi -f $(docker images -q)
 ```
 
 ---
