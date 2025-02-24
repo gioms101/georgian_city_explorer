@@ -91,7 +91,7 @@ class ForgotPasswordRequestAPIView(APIView):
     def post(self, request, *args, **kwargs) -> Response:
         serializer = ForgotPasswordRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = CustomUser.objects.get(email=serializer.validated_data['email'])
+        user = get_object_or_404(CustomUser, email=serializer.validated_data['email'])
         encoded_pk = urlsafe_base64_encode(force_bytes(user.pk))
         token = PasswordResetTokenGenerator().make_token(user)
         url_link = self.request.build_absolute_uri(

@@ -188,3 +188,17 @@ SIMPLE_JWT = {
 CLIENT_ID = config('PAYPAL_CLIENT_ID', default=None)
 CLIENT_SECRET = config('PAYPAL_CLIENT_SECRET', default=None)
 
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
